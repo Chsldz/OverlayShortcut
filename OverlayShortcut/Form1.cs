@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OverlayTest
+namespace OverlayShortcut
 {
     public partial class Form1 : Form
     {
@@ -19,7 +19,15 @@ namespace OverlayTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            int realPositionX = startLocationX - this.Size.Width / 2;
+            int realPositionY = startLocationY - this.Size.Height / 2;
+            this.SetDesktopLocation(realPositionX, realPositionY);
+        }
+
+        public Form1(int x, int y):this()
+        {
+            this.startLocationX = x;
+            this.startLocationY = y;
         }
 
         protected override bool ShowWithoutActivation
@@ -28,6 +36,9 @@ namespace OverlayTest
         }
 
         private const int WS_EX_TOPMOST = 0x00000008;
+        private int startLocationX;
+        private int startLocationY;
+
         protected override CreateParams CreateParams
         {
             get

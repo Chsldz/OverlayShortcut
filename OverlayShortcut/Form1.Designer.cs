@@ -1,4 +1,4 @@
-﻿namespace OverlayTest
+﻿namespace OverlayShortcut
 {
     partial class Form1
     {
