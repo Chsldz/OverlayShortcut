@@ -16,12 +16,32 @@ namespace OverlayShortcut
         {
             InitializeComponent();
         }
-
+        int row = -1;
+        int column = 0;
+        Button[] buttons = new Button[8];
         private void Form1_Load(object sender, EventArgs e)
         {
             int realPositionX = startLocationX - this.Size.Width / 2;
             int realPositionY = startLocationY - this.Size.Height / 2;
+            for (int i = 0; i < 8; i++)
+            {
+                Button button = new Button();
+                if (i % 2 == 0) row++;
+                button.Location = new System.Drawing.Point(12 + (81 * column), 12 + 81 * row);
+                column++;
+                if (column == 2) column = 0;
+                button.Name = "button1";
+                button.Size = new System.Drawing.Size(75, 75);
+                button.TabIndex = i;
+                button.Text = i.ToString();
+                button.UseVisualStyleBackColor = true;
+                button.Click += new System.EventHandler(this.button1_Click);
+                this.Controls.Add(button);
+                buttons[i] = button;
+            }
+
             this.SetDesktopLocation(realPositionX, realPositionY);
+            Program.setOpened();
         }
 
         public Form1(int x, int y):this()
@@ -49,13 +69,21 @@ namespace OverlayShortcut
             }
         }
         void fensterSchliessen() {
+            //Program.setClosed();
             this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("stuff");
+            Button button = sender as Button;
+            Console.Write("Button: ");
+            Console.WriteLine(button.Text);
             fensterSchliessen();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Program.setClosed();
         }
     }
 }

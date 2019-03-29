@@ -57,6 +57,16 @@ namespace OverlayShortcut
             Application.Run();
         }
 
+        internal static void setClosed()
+        {
+            openForm = false;
+        }
+
+        internal static void setOpened()
+        {
+            openForm = true;
+        }
+
         private static void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
             if (e.HotKey.Key == Key.F1)
@@ -85,12 +95,15 @@ namespace OverlayShortcut
         {
             startForms();
         }
-
+        private static bool openForm = false;
 
         private static void startForms()
         {
             Form1 form = new Form1(Cursor.Position.X, Cursor.Position.Y);
-            form.ShowDialog();
+            if (!openForm)
+            {
+                form.ShowDialog();
+            }
         }
     }
 }
