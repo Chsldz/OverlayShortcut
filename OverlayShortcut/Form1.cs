@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace OverlayShortcut
@@ -16,6 +11,26 @@ namespace OverlayShortcut
         {
             InitializeComponent();
         }
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+        enum GetWindow_Cmd : uint
+        {
+            GW_HWNDFIRST = 0,
+            GW_HWNDLAST = 1,
+            GW_HWNDNEXT = 2,
+            GW_HWNDPREV = 3,
+            GW_OWNER = 4,
+            GW_CHILD = 5,
+            GW_ENABLEDPOPUP = 6
+        }
+        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr GetParent(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+
+
         int row = -1;
         int column = 0;
         Button[] buttons = new Button[8];
@@ -68,9 +83,23 @@ namespace OverlayShortcut
                 return createParams;
             }
         }
-        void fensterSchliessen() {
-            //Program.setClosed();
+        void fensterSchliessen()
+        { 
+            switchFensterFocus();
             this.Close();
+        }
+
+
+        void switchFensterFocus()
+        {
+            IntPtr lastWindowHandle = GetWindow(Process.GetCurrentProcess().MainWindowHandle, (uint)GetWindow_Cmd.GW_HWNDNEXT);
+            while (true)
+            {
+                IntPtr temp = GetParent(lastWindowHandle);
+                if (temp.Equals(IntPtr.Zero)) break;
+                lastWindowHandle = temp;
+            }
+            SetForegroundWindow(lastWindowHandle);
         }
 
         private void button1_Click(object sender, EventArgs e)
