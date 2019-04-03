@@ -6,9 +6,9 @@ namespace OverlayShortcut
     static class PropertyHandler
     {
 
-        public static void setTextboxProperties(TextBox textBox, String text)
+        public static void setTextboxProperties(object i, String text)
         {
-            switch (textBox.Tag)
+            switch (i)
             {
                 case 0:
                     Properties.Settings.Default.btnShortcut1 = text;
@@ -47,7 +47,7 @@ namespace OverlayShortcut
             Properties.Settings.Default.Save();
         }
 
-        internal static string getTextboxProperties(int i)
+        internal static string getTextboxProperties(object i)
         {
             switch (i)
             {

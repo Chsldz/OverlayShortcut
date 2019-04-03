@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace OverlayShortcut
@@ -45,10 +46,11 @@ namespace OverlayShortcut
                 button.Location = new System.Drawing.Point(12 + (81 * column), 12 + 81 * row);
                 column++;
                 if (column == 2) column = 0;
-                button.Name = "button1";
+                button.Name = "button"+i.ToString();
                 button.Size = new System.Drawing.Size(75, 75);
                 button.TabIndex = i;
-                button.Text = i.ToString();
+                button.Text = PropertyHandler.getTextboxProperties(i);
+                button.Tag = i;
                 button.UseVisualStyleBackColor = true;
                 button.Click += new System.EventHandler(this.button1_Click);
                 this.Controls.Add(button);
@@ -83,6 +85,7 @@ namespace OverlayShortcut
                 return createParams;
             }
         }
+
         void fensterSchliessen()
         { 
             switchFensterFocus();
@@ -92,7 +95,7 @@ namespace OverlayShortcut
 
         void switchFensterFocus()
         {
-            IntPtr lastWindowHandle = GetWindow(Process.GetCurrentProcess().MainWindowHandle, (uint)GetWindow_Cmd.GW_HWNDNEXT);
+            IntPtr lastWindowHandle = GetWindow(Process.GetCurrentProcess().MainWindowHandle, (uint)GetWindow_Cmd.GW_HWNDPREV);
             while (true)
             {
                 IntPtr temp = GetParent(lastWindowHandle);
@@ -102,17 +105,20 @@ namespace OverlayShortcut
             SetForegroundWindow(lastWindowHandle);
         }
 
+        object output;
         private void button1_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
+            output = button.Tag;
             Console.Write("Button: ");
             Console.WriteLine(button.Text);
             fensterSchliessen();
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private void Form1_Deactivate(object sender, EventArgs e)
         {
             Program.setClosed();
+            SendKeys.SendWait(PropertyHandler.getTextboxProperties(output));
         }
     }
 }

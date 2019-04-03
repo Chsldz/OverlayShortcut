@@ -40,8 +40,8 @@
             this.Name = "PropertieSettings";
             this.Text = "PropertieSettings";
             this.Load += new System.EventHandler(this.PropertieSettings_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionShortcut);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionShortcutUp);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionKeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionKeyUp);
             this.ResumeLayout(false);
 
         }

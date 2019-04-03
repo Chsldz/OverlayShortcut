@@ -18,7 +18,7 @@ namespace OverlayShortcut
             Console.WriteLine(e.KeyCode);
         }
         List<Keys> code = new List<Keys>();
-        private void ActionShortcut(object sender, KeyEventArgs e)
+        private void ActionKeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.KeyCode);
             if (!code.Contains(e.KeyCode))
@@ -27,7 +27,7 @@ namespace OverlayShortcut
             }
         }
 
-        private void ActionShortcutUp(object sender, KeyEventArgs e)
+        private void ActionKeyUp(object sender, KeyEventArgs e)
         {
             if (code.Count != 0)
             {
@@ -43,7 +43,7 @@ namespace OverlayShortcut
                 }
                 textBox.Text = null;
                 textBox.Text = builder.ToString();
-                PropertyHandler.setTextboxProperties(textBox, builder.ToString());
+                PropertyHandler.setTextboxProperties(textBox.Tag, builder.ToString());
                 code.Clear();
             }
         }
@@ -60,8 +60,8 @@ namespace OverlayShortcut
                 textBox.TabIndex = i;
                 textBox.Tag = i;
                 textBox.Text = PropertyHandler.getTextboxProperties(i);
-                textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionShortcut);
-                textBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionShortcutUp);
+                textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionKeyDown);
+                textBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionKeyUp);
                 this.Controls.Add(textBox);
                 textBoxes[i] = textBox;
             }
