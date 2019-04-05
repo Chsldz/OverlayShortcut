@@ -49,7 +49,6 @@ namespace OverlayShortcut
 
             // Register Ctrl+Alt+F5 hotkey. Save this variable somewhere for the further unregistering.
             var hotKey = hotKeyManager.Register(Key.F1, ModifierKeys.Control | ModifierKeys.Alt);
-
             // Handle hotkey presses.
             hotKeyManager.KeyPressed += HotKeyManagerPressed;
 

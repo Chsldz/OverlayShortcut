@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace OverlayShortcut
 {
@@ -35,10 +37,10 @@ namespace OverlayShortcut
                 StringBuilder builder = new StringBuilder();
                 foreach (Keys keys in code)
                 {
-                    builder.Append(keys.ToString());
-                    if (!keys.Equals(code.Last()))
+                    builder.Append((Int32)keys);
+                    if (keys != code.Last())
                     {
-                        builder.Append(" + ");
+                        builder.Append(",");
                     }
                 }
                 textBox.Text = null;
@@ -59,7 +61,7 @@ namespace OverlayShortcut
                 textBox.Size = new System.Drawing.Size(220, 20);
                 textBox.TabIndex = i;
                 textBox.Tag = i;
-                textBox.Text = PropertyHandler.getTextboxProperties(i);
+                textBox.Text = PropertyHandler.getTextboxProperties(i).ToString();
                 textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ActionKeyDown);
                 textBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionKeyUp);
                 this.Controls.Add(textBox);

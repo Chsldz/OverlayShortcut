@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Windows.Forms;
 
 namespace OverlayShortcut
@@ -47,7 +48,7 @@ namespace OverlayShortcut
             Properties.Settings.Default.Save();
         }
 
-        internal static string getTextboxProperties(object i)
+        internal static String getTextboxProperties(object i)
         {
             switch (i)
             {

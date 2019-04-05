@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Input;
+using WindowsInput.Native;
+using WindowsInput;
 
 namespace OverlayShortcut
 {
@@ -49,7 +54,7 @@ namespace OverlayShortcut
                 button.Name = "button"+i.ToString();
                 button.Size = new System.Drawing.Size(75, 75);
                 button.TabIndex = i;
-                button.Text = PropertyHandler.getTextboxProperties(i);
+                button.Text = PropertyHandler.getTextboxProperties(i).ToString();
                 button.Tag = i;
                 button.UseVisualStyleBackColor = true;
                 button.Click += new System.EventHandler(this.button1_Click);
@@ -118,7 +123,32 @@ namespace OverlayShortcut
         private void Form1_Deactivate(object sender, EventArgs e)
         {
             Program.setClosed();
-            SendKeys.SendWait(PropertyHandler.getTextboxProperties(output));
+            List<string> list = PropertyHandler.getTextboxProperties(output).Split(',').ToList();
+            List<Keys> intList = new List<Keys>();
+            InputSimulator sim = new InputSimulator();
+
+            foreach (String strng in list)
+            {
+                //intList.Add(key);
+                //SendKeys.SendWait(key.ToString());
+                sim.Keyboard.KeyDown((VirtualKeyCode)Int32.Parse(strng));
+
+            }
+            List<VirtualKeyCode> modifi = new List<VirtualKeyCode>();
+            List<VirtualKeyCode> key = new List<VirtualKeyCode>();
+            foreach (String strng in list)
+            {
+                int k = Int32.Parse(strng);
+                if (k <= 20)
+                {
+                    modifi.Add((VirtualKeyCode)k);
+                }
+                else
+                {
+                    key.Add((VirtualKeyCode)k);
+                }
+            }
+            sim.Keyboard.ModifiedKeyStroke(modifi,key);
         }
     }
 }
