@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
+using WindowsInput.Native;
 
 namespace OverlayShortcut
 {
@@ -22,10 +23,11 @@ namespace OverlayShortcut
         List<Keys> code = new List<Keys>();
         private void ActionKeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.KeyCode);
-            if (!code.Contains(e.KeyCode))
+            //VirtualKeyCode CodeOfKeyToEmulate = (VirtualKeyCode)KeyInterop.VirtualKeyFromKey(e.Key);
+            Console.WriteLine(e.KeyData);
+            if (!code.Contains(e.KeyData))
             {
-                code.Add(e.KeyCode);
+                code.Add(e.KeyData);
             }
         }
 
@@ -67,6 +69,7 @@ namespace OverlayShortcut
                 this.Controls.Add(textBox);
                 textBoxes[i] = textBox;
             }
+
         }
     }
 }

@@ -126,29 +126,14 @@ namespace OverlayShortcut
             List<string> list = PropertyHandler.getTextboxProperties(output).Split(',').ToList();
             List<Keys> intList = new List<Keys>();
             InputSimulator sim = new InputSimulator();
-
-            foreach (String strng in list)
+            if (list.Count != 0)
             {
-                //intList.Add(key);
-                //SendKeys.SendWait(key.ToString());
-                sim.Keyboard.KeyDown((VirtualKeyCode)Int32.Parse(strng));
-
-            }
-            List<VirtualKeyCode> modifi = new List<VirtualKeyCode>();
-            List<VirtualKeyCode> key = new List<VirtualKeyCode>();
-            foreach (String strng in list)
-            {
-                int k = Int32.Parse(strng);
-                if (k <= 20)
+                foreach (String strng in list)
                 {
-                    modifi.Add((VirtualKeyCode)k);
-                }
-                else
-                {
-                    key.Add((VirtualKeyCode)k);
+                    sim.Keyboard.KeyPress((VirtualKeyCode)Int32.Parse(strng));
+                    Thread.Sleep(200);
                 }
             }
-            sim.Keyboard.ModifiedKeyStroke(modifi,key);
         }
     }
 }
