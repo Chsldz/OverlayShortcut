@@ -54,7 +54,7 @@ namespace OverlayShortcut
                 button.Name = "button"+i.ToString();
                 button.Size = new System.Drawing.Size(75, 75);
                 button.TabIndex = i;
-                button.Text = PropertyHandler.getTextboxProperties(i).ToString();
+                button.Text = PropertyHandler.getNameboxProperties(i).ToString();
                 button.Tag = i;
                 button.UseVisualStyleBackColor = true;
                 button.Click += new System.EventHandler(this.button1_Click);

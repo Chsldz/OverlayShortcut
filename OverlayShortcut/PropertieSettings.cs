@@ -68,8 +68,23 @@ namespace OverlayShortcut
                 textBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ActionKeyUp);
                 this.Controls.Add(textBox);
                 textBoxes[i] = textBox;
+
+                TextBox nameBox = new TextBox();
+                nameBox.Location = new System.Drawing.Point(240, 12 + 26 * i);
+                nameBox.Name = "textBox" + i.ToString();
+                nameBox.Size = new System.Drawing.Size(220, 20);
+                nameBox.Tag = i;
+                nameBox.Leave += new System.EventHandler(this.LeaveBox);
+                nameBox.Text = PropertyHandler.getNameboxProperties(i).ToString();
+                this.Controls.Add(nameBox);
             }
 
+        }
+
+        private void LeaveBox(object sender, EventArgs e)
+        {
+            TextBox temp = sender as TextBox;
+            PropertyHandler.setNameboxProperties(temp.Tag, temp.Text);
         }
     }
 }
